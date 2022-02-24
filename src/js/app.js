@@ -1,22 +1,21 @@
 export default function orderByProps(object, array = []) {
     const result = [];
-    const result2 = [];
 
-    for (const arr in object) {
-        if (array.find((e) => e === arr)) {
-            result.push({ key: arr, value: object[arr] });
+    for (const prop in object) {
+        if (!array.find((e) => e === prop)) {
+            array.push(prop);
         } else {
-            result2.push({ key: arr, value: object[arr] });
+            result.push({ key: prop, value: object[prop] });
         }
     }
 
-    result2.sort((a, b) => {
-        if (a.key > b.key) return 1;
-        if (a.key < b.key) return -1;
-        return 0;
-    });
+    array.sort();
 
-    const final = [...result, ...result2];
+    for (let i = 0; i < array.length; i++) {
+        if (!result.find((e) => e.key === array[i])) {
+            result.push({ key: array[i], value: object[array[i]] });
+        }
+    }
 
-    return final;
+    return result;
 }
